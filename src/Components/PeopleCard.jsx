@@ -5,11 +5,20 @@ import { useNavigate } from "react-router-dom";
 
 const PeopleCard= ({people}) => {
    const navigate = useNavigate();
+   const profileUrl = people.profile_path
+    ? "https://image.tmdb.org/t/p/original" + people.profile_path
+    : null;
 
 
     return <>
         <Card className="col-3" onClick={() => {navigate('/people/' +people.id)}}>
-            <Card.Img variant="top" src={"https://image.tmdb.org/t/p/original" + people.profile_path } />
+            {profileUrl ?
+                <Card.Img variant="top" src={profileUrl} /> :
+                <div className="card-image-placeholder">
+                    <span>{people.name?.charAt(0) || "?"}</span>
+                    <small>Image indisponible</small>
+                </div>
+            }
             <Card.Body>
                 <Card.Title className="text-truncate">{people.name}</Card.Title>
                

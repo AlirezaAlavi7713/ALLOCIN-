@@ -2,51 +2,51 @@ import axios from "axios"// usiamo al post di fetch
 import { ACCOUNT_ID, HEADER} from './config';
 
 function getMoviesPlaying() {
-    return axios.get('https://api.themoviedb.org/3/movie/now_playing?language=it-IT', HEADER) //importiamo il link
+    return axios.get('https://api.themoviedb.org/3/movie/now_playing?language=fr-FR', HEADER) //importiamo il link
 }
 
 function getMoviesUpComing() {
-    return axios.get('https://api.themoviedb.org/3/movie/upcoming?language=it-IT', HEADER)
+    return axios.get('https://api.themoviedb.org/3/movie/upcoming?language=fr-FR', HEADER)
 }
 
 function getMoviesTopRated() {
-    return axios.get("https://api.themoviedb.org/3/movie/top_rated?language=it-IT", HEADER)
+    return axios.get("https://api.themoviedb.org/3/movie/top_rated?language=fr-FR", HEADER)
 
 }
 
 function getMovies(page) {
-    return axios.get("https://api.themoviedb.org/3/discover/movie?language=it-IT&page=" + page, HEADER)
+    return axios.get("https://api.themoviedb.org/3/discover/movie?language=fr-FR&page=" + page, HEADER)
 }
 
 function getMoviesByPeople(idPeople, page) {    //PASSAGGIO UNO. PARTIAMO DALLA FUNZIONE CON LA PARTE FINALE DA CERCARE
-    return axios.get("https://api.themoviedb.org/3/discover/movie?language=it-IT&with_cast" + idPeople + "&page=" + page, HEADER)
+    return axios.get("https://api.themoviedb.org/3/discover/movie?language=fr-FR&with_cast" + idPeople + "&page=" + page, HEADER)
 }
 function getMovie(id) {
-    return axios.get("https://api.themoviedb.org/3/movie/" + id + "?language=it-IT", HEADER)
+    return axios.get("https://api.themoviedb.org/3/movie/" + id + "?language=fr-FR", HEADER)
 
 
 }
 function getCasting(id) {
-    return axios.get("https://api.themoviedb.org/3/movie/" + id + "/credits?language=it-IT", HEADER)
+    return axios.get("https://api.themoviedb.org/3/movie/" + id + "/credits?language=fr-FR", HEADER)
 
 
 }
 
 function getSimilarMovies(id, page) {
-    return axios.get("https://api.themoviedb.org/3/movie/" + id + "/similar?language=it-IT&page=" + page, HEADER)
+    return axios.get("https://api.themoviedb.org/3/movie/" + id + "/similar?language=fr-FR&page=" + page, HEADER)
 
 
 }
 
 
 function getSagaMovies(id) {
-    return axios.get("https://api.themoviedb.org/3/collection/" + id + "?language=it-IT", HEADER)
+    return axios.get("https://api.themoviedb.org/3/collection/" + id + "?language=fr-FR", HEADER)
 
 
 }
 
 function getMoviesByGenre(id, page) {
-    return axios.get("https://api.themoviedb.org/3/discover/movie?language=it-IT&with_genres=" + id + "&page=" + page, HEADER)
+    return axios.get("https://api.themoviedb.org/3/discover/movie?language=fr-FR&with_genres=" + id + "&page=" + page, HEADER)
 
 
 }

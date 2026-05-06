@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-src/Services/config.js
+.env
 
 package-lock.json

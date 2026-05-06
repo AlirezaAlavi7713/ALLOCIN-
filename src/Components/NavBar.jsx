@@ -27,9 +27,14 @@ const NavBar = () => {
 
   const handlesubmit = (e) => {
     e.preventDefault();
+    const cleanSearch = search.trim();
+
+    if (!cleanSearch) {
+      return;
+    }
+
     try {
-      console.log("Formulaire envoyé" + " " + search);
-      navigate('/search', { state: { search: search } })
+      navigate('/search', { state: { search: cleanSearch } })
 
     } catch (error) {
       console.error(error);
@@ -42,18 +47,18 @@ const NavBar = () => {
   }, [])
 
   return <>
-    <Navbar expand="lg" className="bg-dark" variant='dark'>
+    <Navbar expand="lg" className="allo-navbar" variant='dark' sticky='top'>
       <Container fluid>
-        <Navbar.Brand className='cursor' onClick={() => { navigate('/') }}>AlloCiné</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link onClick={() => { navigate('/') }}>Accueil</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/peoples') }}>Acteurs</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/movies') }}>Films</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/favorite') }}>Mes Favoris</Nav.Link>
-            <Nav.Link onClick={() => { navigate('/watchlist') }}>Ma watchlist</Nav.Link>
-            <NavDropdown title="Genres" id='basic-nav-dropdown'>
+        <Navbar.Brand className='allo-navbar-brand cursor' onClick={() => { navigate('/') }}>AlloCiné</Navbar.Brand>
+        <Navbar.Toggle className='allo-navbar-toggle' aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse className='allo-navbar-collapse' id="basic-navbar-nav">
+          <Nav className="allo-navbar-links me-auto">
+            <Nav.Link className='allo-nav-link' onClick={() => { navigate('/') }}>Accueil</Nav.Link>
+            <Nav.Link className='allo-nav-link' onClick={() => { navigate('/peoples') }}>Acteurs</Nav.Link>
+            <Nav.Link className='allo-nav-link' onClick={() => { navigate('/movies') }}>Films</Nav.Link>
+            <Nav.Link className='allo-nav-link' onClick={() => { navigate('/favorite') }}>Mes Favoris</Nav.Link>
+            <Nav.Link className='allo-nav-link' onClick={() => { navigate('/watchlist') }}>Ma watchlist</Nav.Link>
+            <NavDropdown className='allo-nav-link allo-genre-dropdown' title="Genres" id='basic-nav-dropdown'>
               {genres.map((genre) => {
                 return <NavDropdown.Item key={genre.id} onClick={() => { navigate('/genre/' + genre.id) }}>
                   {genre.name}
@@ -61,15 +66,15 @@ const NavBar = () => {
               })}
             </NavDropdown>
           </Nav>
-          <Form className='d-flex' onSubmit={handlesubmit}>
+          <Form className='allo-search-form' onSubmit={handlesubmit}>
             <Form.Control
               type='search'
-              placeholder='search'
-              className='me-2'
+              placeholder='Rechercher un film...'
+              className='allo-search-input'
               value={search}
               onChange={(e) => { setSearch(e.target.value) }}
             />
-            <Button type='submit'>Chercher</Button>
+            <Button className='allo-search-button' type='submit'>Rechercher</Button>
           </Form>
         </Navbar.Collapse>
       </Container>

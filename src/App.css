@@ -1,18 +1,187 @@
 
 
 body{
-  background-color: black;
+  background-color: #08090d;
   color: white;
 }
 .cursor{
   cursor: pointer;
 }
-.navbar{
-  background: darkorange;
+
+.allo-navbar{
+  background:
+    linear-gradient(135deg, rgba(9, 10, 15, 0.98), rgba(20, 20, 26, 0.96)),
+    radial-gradient(circle at top left, rgba(255, 176, 38, 0.26), transparent 34%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.28);
+  padding: 0.85rem 1rem;
+  backdrop-filter: blur(14px);
+}
+
+.allo-navbar .container-fluid{
+  gap: 1rem;
+}
+
+.allo-navbar-brand{
+  align-items: center;
+  color: #ffffff !important;
+  display: inline-flex;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin-right: 1.5rem;
+  position: relative;
+}
+
+.allo-navbar-brand::before{
+  background: linear-gradient(135deg, #ffb321, #ff4d1f);
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(255, 127, 31, 0.55);
+  content: "";
+  display: inline-block;
+  height: 0.85rem;
+  margin-right: 0.55rem;
+  width: 0.85rem;
+}
+
+.allo-navbar-toggle{
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  border-radius: 8px;
+  box-shadow: none !important;
+}
+
+.allo-navbar-links{
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.allo-navbar .allo-nav-link,
+.allo-navbar .nav-link{
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.76) !important;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem !important;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.allo-navbar .allo-nav-link:hover,
+.allo-navbar .nav-link:hover,
+.allo-navbar .nav-link:focus{
+  background-color: rgba(255, 255, 255, 0.09);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.allo-genre-dropdown .dropdown-menu{
+  background: rgba(18, 19, 25, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+  margin-top: 0.65rem;
+  padding: 0.45rem;
+}
+
+.allo-genre-dropdown .dropdown-item{
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 500;
+}
+
+.allo-genre-dropdown .dropdown-item:hover,
+.allo-genre-dropdown .dropdown-item:focus{
+  background: rgba(255, 166, 38, 0.14);
+  color: #ffffff;
+}
+
+.allo-search-form{
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  display: flex;
+  gap: 0.4rem;
+  margin-left: 1rem;
+  padding: 0.25rem;
+}
+
+.allo-search-input.form-control{
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #ffffff;
+  min-width: 230px;
+  padding: 0.55rem 0.75rem 0.55rem 1rem;
+}
+
+.allo-search-input.form-control::placeholder{
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.allo-search-input.form-control:focus{
+  background: transparent;
+  color: #ffffff;
+}
+
+.allo-search-button.btn{
+  background: linear-gradient(135deg, #ffb321, #ff6a1f);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: 0 9px 22px rgba(255, 106, 31, 0.28);
+  color: #161008;
+  font-weight: 800;
+  padding: 0.55rem 1rem;
+  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.allo-search-button.btn:hover,
+.allo-search-button.btn:focus{
+  box-shadow: 0 12px 28px rgba(255, 106, 31, 0.4);
+  color: #161008;
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.allo-search-button.btn:active{
+  transform: translateY(0);
 }
 .card:hover{
   scale: 1.05;
   cursor: pointer;
+}
+
+.card-image-placeholder{
+  align-items: center;
+  aspect-ratio: 2 / 3;
+  background:
+    linear-gradient(145deg, rgba(255, 179, 33, 0.2), rgba(255, 77, 31, 0.08)),
+    #17181f;
+  color: rgba(255, 255, 255, 0.86);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 260px;
+  text-align: center;
+}
+
+.card-image-placeholder span{
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 2rem;
+  font-weight: 800;
+  height: 4.5rem;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  width: 4.5rem;
+}
+
+.card-image-placeholder small{
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
 }
 ::-webkit-scrollbar {
   width: 8px; 
@@ -31,5 +200,44 @@ body{
 
 .dropdown-menu {
   max-height: 200px;
-   overflow-y: auto;
+  overflow-y: auto;
+}
+
+@media (max-width: 991.98px){
+  .allo-navbar{
+    padding: 0.7rem 0.25rem;
+  }
+
+  .allo-navbar-collapse{
+    padding-top: 0.8rem;
+  }
+
+  .allo-navbar-links{
+    align-items: stretch;
+    gap: 0.2rem;
+    padding-top: 0.8rem;
+  }
+
+  .allo-search-form{
+    margin-left: 0;
+    margin-top: 0.9rem;
+    width: 100%;
+  }
+
+  .allo-search-input.form-control{
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px){
+  .allo-search-form{
+    border-radius: 18px;
+    flex-direction: column;
+    padding: 0.4rem;
+  }
+
+  .allo-search-button.btn{
+    width: 100%;
+  }
 }
