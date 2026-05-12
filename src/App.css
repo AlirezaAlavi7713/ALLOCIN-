@@ -251,6 +251,123 @@ body{
   opacity: 0.6;
 }
 
+/* ── Cards Grid ── */
+.allo-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.allo-card {
+  background: #17181f;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.allo-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,179,33,0.4);
+}
+
+.allo-card__img-wrap {
+  position: relative;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: #0f1015;
+}
+.allo-card--people .allo-card__img-wrap {
+  aspect-ratio: 1/1;
+}
+
+.allo-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.allo-card__no-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+}
+.allo-card__no-img span {
+  font-size: 2rem;
+  font-weight: 800;
+  color: rgba(255,179,33,0.5);
+}
+
+.allo-card__badge {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  background: rgba(0,0,0,0.75);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffb321;
+  padding: 0.2rem 0.45rem;
+  backdrop-filter: blur(4px);
+}
+
+.allo-card__body {
+  padding: 0.6rem 0.7rem;
+  flex: 1;
+}
+.allo-card__title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  margin: 0 0 0.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.allo-card__year {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Tabs ── */
+.tab-section {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.tab-section__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 0.5rem;
+  margin: 0;
+}
+.tab-empty {
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+}
+
 /* ── Movie Detail Page ── */
 .movie-detail__top {
   display: grid;

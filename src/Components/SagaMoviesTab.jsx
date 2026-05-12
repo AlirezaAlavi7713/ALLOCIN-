@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import MoviesService from "../Services/MoviesService";
-import { Container } from "react-bootstrap";
 import MovieCard from "./MovieCard";
 
 const SagaMoviesTab = ({ movie }) => {
@@ -10,26 +9,25 @@ const SagaMoviesTab = ({ movie }) => {
         try {
             const response = await MoviesService.getSagaMovies(movie.belongs_to_collection.id);
             setMovies(response.data.parts);
-
         } catch (error) {
             console.error(error);
-
         }
-    }
+    };
 
     useEffect(() => {
-        if (movie.belongs_to_collection && movie.belongs_to_collection.id) {
-            fetchSagaMovies();
-        }
-    }, [movie])
+        if (movie.belongs_to_collection?.id) fetchSagaMovies();
+    }, [movie]);
 
-    return <>
-        <Container className="d-flex flex-wrap justify-content-center gap-3">
-            {movies.map((movie) => {
-                return <MovieCard key={movie.id} movie={movie} />
-            })}
-        </Container>
-    </>;
-}
+    if (!movie.belongs_to_collection) return <p className="tab-empty">Ce film ne fait pas partie d'une saga.</p>;
+    if (!movies.length) return <p className="tab-empty">Chargement...</p>;
+
+    return (
+        <div className="tab-section">
+            <div className="allo-cards-grid">
+                {movies.map((m) => <MovieCard key={m.id} movie={m} />)}
+            </div>
+        </div>
+    );
+};
 
 export default SagaMoviesTab;
