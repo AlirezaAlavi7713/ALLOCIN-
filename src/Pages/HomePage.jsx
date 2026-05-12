@@ -50,7 +50,12 @@ const HomePage = () => {
 
     return <>
         <Container fluid className="d-flex flex-column align-items-center pt-3">
-            <h1>AlloCiné</h1>
+            <div className="allo-hero">
+                <div className="allo-hero__dot"></div>
+                <h1 className="allo-hero__title">AlloCiné</h1>
+                <p className="allo-hero__sub">Films, acteurs, tendances</p>
+                <div className="allo-hero__divider"></div>
+            </div>
             <MoviesCarousel title={"Film à l'affiche"} movies={movies}/>
             <MoviesCarousel title={"Film à venir"} movies={moviesUpComing}/>
              <MoviesCarousel title={"Film mieux notés"} movies={moviesUpComing}/>
