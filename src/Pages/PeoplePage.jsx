@@ -1,100 +1,98 @@
 import { useParams } from "react-router-dom";
 import PeoplesService from "../Services/PeoplesService";
-import { useEffect, useState } from "react";
-import { Container, Pagination } from "react-bootstrap";
 import MoviesService from "../Services/MoviesService";
-import MovieCard from "../Components/MovieCard"; //importare PASSAGGIO 5 VERIFICARE SEMPRE LIMPORTO DOPO AVER CREATO
+import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import MovieCard from "../Components/MovieCard";
 import Paginations from "../Components/Paginations";
+
+const TMDB_IMG = "https://image.tmdb.org/t/p/w342";
 
 const PeoplePage = () => {
     const { id } = useParams();
-    const [people, setPeople] = useState({})
-    const [movies, setMovies] = useState([]); //PASSAGGIO 3 PER STOCCARE MUOVIS
-    const [maxPages, setMaxPages] = useState(500);  // passaggio 6 insieme a la riga sotto
+    const [people, setPeople] = useState({});
+    const [movies, setMovies] = useState([]);
+    const [maxPages, setMaxPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const fetctPeople = async () => {
-        try {
-            const response = await PeoplesService.getPeople(id);
-            setPeople(response.data);
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    const fetctMoviesByPeople = async () => {    // PASSAGGIO 2 CREIAMO LA FECH
-        try {
-            const response = await MoviesService.getMoviesByPeople(id, currentPage);
-            setMovies(response.data.results);
-            setMaxPages(response.data.total_pages)  //passagio 7
-        } catch (error) {
-            console.error(error);
-
-        }
-    }
-
+    useEffect(() => {
+        const fetchPeople = async () => {
+            try {
+                const response = await PeoplesService.getPeople(id);
+                setPeople(response.data);
+            } catch (error) { console.error(error); }
+        };
+        fetchPeople();
+    }, [id]);
 
     useEffect(() => {
-        fetctPeople();
+        const fetchMovies = async () => {
+            try {
+                const response = await MoviesService.getMoviesByPeople(id, currentPage);
+                setMovies(response.data.results);
+                setMaxPages(response.data.total_pages);
+            } catch (error) { console.error(error); }
+        };
+        fetchMovies();
+    }, [id, currentPage]);
 
-    }, [])
+    return (
+        <Container className="movie-detail py-4">
+            {/* Photo + Info */}
+            <div className="movie-detail__top">
+                {/* Photo */}
+                <div className="movie-detail__poster-wrap">
+                    {people.profile_path ? (
+                        <img
+                            className="movie-detail__poster"
+                            src={TMDB_IMG + people.profile_path}
+                            alt={people.name}
+                        />
+                    ) : (
+                        <div className="movie-detail__no-image">
+                            <span>🎭</span>
+                            <p>Image non disponible</p>
+                        </div>
+                    )}
+                </div>
 
+                {/* Info */}
+                <div className="movie-detail__info">
+                    <h1 className="movie-detail__title">{people.name || "Nom non renseigné"}</h1>
 
-    useEffect(() => {
-        fetctMoviesByPeople(); //2bis CHIAMIAMO LA FUNZIONE  (creiam un altro use effect)
+                    <div className="movie-detail__meta">
+                        {people.known_for_department && <span>🎬 {people.known_for_department}</span>}
+                        {people.birthday && <span>📅 {people.birthday}</span>}
+                        {people.place_of_birth && <span>📍 {people.place_of_birth}</span>}
+                        {people.deathday && <span>✝️ {people.deathday}</span>}
+                        {people.popularity > 0 && <span>⭐ Popularité : {people.popularity?.toFixed(1)}</span>}
+                    </div>
 
-    }, [currentPage])
+                    {people.biography && (
+                        <div className="movie-detail__overview">
+                            <h3>Biographie</h3>
+                            <p>{people.biography}</p>
+                        </div>
+                    )}
 
-    return <>
-        <Container fluid className="d-flex flex-column align-items-center gap-3 pt-3">
-            {/* parte globale*/}
-            <Container className="d-flex ">
-                {/* parte sinistra*/}
-                <Container className="d-flex flex-column align-items-center gap-3 pt-3 col-6">
-                    <img className="col-12" src={"https://image.tmdb.org/t/p/original" + people.profile_path} alt={people.name} />
-
-                </Container>
-                {/* parte destra*/}
-                <Container className="d-flex flex-column align-items-center gap-1 pt-3 col-6">
-                    <h1>{people.name}</h1>
-                    <h2 className="text-decoration-underline">Biographie</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }} >
-                        {people.biography == "" ? "Non renseigne" : people.birthday}</p>
-                    <h2 className="text-decoration-underline">Date de naissance</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }} >
-                        {people.birthday == "" ? "Non renseigne" : people.birthday}</p>
-                    <h2 className="text-decoration-underline">Lieu de naissance</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }} >
-                        {people.place_of_birth == "" ? "Non renseigne" : people.place_of_birth}</p>
-                    <h2 className="text-decoration-underline">Connu pour</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }} >
-                        {people.known_for_department == "" ? "Non renseigne" : people.known_for_department}</p>
-                    <h2 className="text-decoration-underline">Notes</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }} >
-                        {people.popularity == "" ? "Non renseigne" : people.popularity}</p>
-
-                    <h2 className="text-decoration-underline">Date de décés</h2>
-                    <p>{people.deathday == null ? "Pas encore mort" : people.deathday}</p>
-
-
-                </Container>
-            </Container>
-            <h2 className="text-decoration-underline"> Filmographie</h2>
-
-            <div className="d-flex flex-wrap justify-content-center gap-3">  {/*pasaggio 4*/}
-                {movies.map((movie) => {
-                    return <MovieCard movie={movie} key={movie.id} />
-                })}
-
-
+                    {!people.biography && (
+                        <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.9rem" }}>Biographie non disponible.</p>
+                    )}
+                </div>
             </div>
-            <Paginations currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages}></Paginations>
 
-
+            {/* Filmographie */}
+            {movies.length > 0 && (
+                <div className="tab-section mt-4">
+                    <h3 className="tab-section__title">Filmographie</h3>
+                    <div className="allo-cards-grid">
+                        {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+                    </div>
+                    <Paginations currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
+                </div>
+            )}
         </Container>
-
-
-    </>;
-}
+    );
+};
 
 export default PeoplePage;
