@@ -14,7 +14,7 @@ const MoviesPage = () => {
         try {
             const response = await MoviesService.getMovies(currentPage);
             setMovies(response.data.results);           
-            //setMaxPages(response.data.total_pages);
+            setMaxPages(response.data.total_pages);
         } catch (error) {
             console.error(error)
         }
@@ -33,10 +33,8 @@ const MoviesPage = () => {
         <Container fluid className="d-flex flex-column align-items-center pt-3 gap-3">
             <h1>Films</h1>
 
-            <div className="d-flex flex-wrap gap-3 justify-content-center">
-                {movies.map((movie) => {
-                    return <MovieCard movie={movie} key={movie.id}></MovieCard>
-                })}
+            <div className="allo-cards-grid w-100">
+                {movies.map((movie) => <MovieCard movie={movie} key={movie.id} />)}
             </div>
             <Paginations currentPage={currentPage} maxPages={maxPages} setCurrentPage={setCurrentPage}/>
         </Container>

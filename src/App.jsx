@@ -1,9 +1,16 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import HomePage from './Pages/HomePage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NavBar from './Components/NavBar';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 import MoviesPage from './Pages/MoviesPage';
 import PeoplesPage from './Pages/PeoplesPage';
 import PeoplePage from './Pages/PeoplePage';
@@ -20,6 +27,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <NavBar></NavBar>
         <Routes>
 

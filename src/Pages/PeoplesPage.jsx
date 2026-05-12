@@ -22,7 +22,7 @@ const PeoplesPage = () => {
     //crea yb useeff ke chiama la funzione fectpeople
     useEffect(() => {
         fetchPeoples();
-        window,scroll({top: 0, behavior: "instant"})
+        window.scrollTo({top: 0, behavior: "instant"})
     }, [currentPage])
 
 
@@ -33,10 +33,8 @@ const PeoplesPage = () => {
             <h1>Personnalités</h1>
             {/* fare un map su etai people e affiche le nom per ogni persone
              */}
-            <div className="d-flex flex-wrap gap-3 justify-content-center">
-                {peoples.map((people) => {
-                    return <PeopleCard people={people} key={people.id} />
-                })}
+            <div className="allo-cards-grid w-100">
+                {peoples.map((people) => <PeopleCard people={people} key={people.id} />)}
             </div>
             <Paginations currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages}/>
 

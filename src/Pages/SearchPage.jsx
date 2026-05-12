@@ -32,9 +32,8 @@ const SearchPage = () => {
 
     return <>
         <Container className="d-flex flex-column align-items-center gap-3 ">
-            <div className="d-flex flex-wrap justify-content-center gap-3">
+            <div className="allo-cards-grid w-100">
                 {data.map((currentData) => {
-                    console.log(currentData);
                     return currentData.media_type == "movie" ?
                         <MovieCard key={currentData.id} movie={currentData} /> :
                         <PeopleCard key={currentData.id} people={currentData} />

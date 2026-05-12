@@ -26,10 +26,9 @@ const FavoritePage = () => {
 
     return <>
         <Container className="d-flex flex-column align-items-center gap-3">
-            <div className="d-flex flex-wrap gap-3 justify-content-center">
-                {movies.map((movie) => {
-                    return <MovieCard key={movie.id} movie={movie} />
-                })}
+            <div className="allo-cards-grid w-100">
+                {movies.length === 0 && <p className="tab-empty">Vos favoris sont vides.</p>}
+                {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
             </div>
             <Paginations currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
         </Container>

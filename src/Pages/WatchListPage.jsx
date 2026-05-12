@@ -14,7 +14,7 @@ const WatchListPage = () => {
         try {
             const response = await MoviesService.getWatchListMovies(currentPage);
             setMovies(response.data.results);
-            setMaxPages(response.total_pages)
+            setMaxPages(response.data.total_pages)
 
         } catch (error) {
             console.error(error);
@@ -30,13 +30,11 @@ const WatchListPage = () => {
     return <>
 
         <Container className="d-flex flex-column align-items-center gap-3 pt-5">
-            <div className="d-flex flex-wrap justify-content-center gap-3 ">
-                {movies.map((movie) => {
-                    return <MovieCard key={movies.id} movie={movie} />
-                })}
-
+            <div className="allo-cards-grid w-100">
+                {movies.length === 0 && <p className="tab-empty">Votre watchlist est vide.</p>}
+                {movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
             </div>
-            <Paginations currentPage={currentPage} setMaxPages={setMaxPages} maxPages={maxPages} />
+            <Paginations currentPage={currentPage} setCurrentPage={setCurrentPage} maxPages={maxPages} />
         </Container>
     </>;
 }
