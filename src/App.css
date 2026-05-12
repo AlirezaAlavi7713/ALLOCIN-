@@ -218,6 +218,11 @@ body{
     padding-top: 0.8rem;
   }
 
+  .allo-navbar-links .allo-nav-link,
+  .allo-navbar-links .nav-link {
+    text-align: center;
+  }
+
   .allo-search-form{
     margin-left: 0;
     margin-top: 0.9rem;
