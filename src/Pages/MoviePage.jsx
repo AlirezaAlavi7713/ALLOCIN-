@@ -6,6 +6,8 @@ import CastingsTab from "../Components/CastingsTab";
 import SimilarMoviesTab from "../Components/SimilarMoviesTab";
 import SagaMoviesTab from "../Components/SagaMoviesTab";
 
+const TMDB_IMG = "https://image.tmdb.org/t/p/w500";
+
 const MoviePage = () => {
     const { id } = useParams();
     const [movie, setMovie] = useState({});
@@ -21,222 +23,157 @@ const MoviePage = () => {
         } catch (error) {
             console.error(error);
         }
-
-    }
-
-
+    };
 
     const addToFavorite = async () => {
         try {
-            const payloud = {
-                "media_type": "movie",
-                "media_id": id,
-                "favorite": true
-            }
-            const response = await MoviesService.addToFavorite(payloud);
+            await MoviesService.addToFavorite({ media_type: "movie", media_id: id, favorite: true });
             setIsInFavorite(true);
-
-        } catch (error) {
-            console.error(Error);
-
-        }
-    }
+        } catch (error) { console.error(error); }
+    };
 
     const removeToFavorite = async () => {
         try {
-            const payloud = {
-                "media_type": "movie",
-                "media_id": id,
-                "favorite": false
-            }
-            const response = await MoviesService.addToFavorite(payloud);
+            await MoviesService.addToFavorite({ media_type: "movie", media_id: id, favorite: false });
             setIsInFavorite(false);
-
-        } catch (error) {
-            console.error(Error);
-
-        }
-    }
-
+        } catch (error) { console.error(error); }
+    };
 
     const addToWatchList = async () => {
         try {
-            const payloud = {
-                "media_type": "movie",
-                "media_id": id,
-                "watchlist": true
-            }
-            const response = await MoviesService.addToWatchList(payloud);
+            await MoviesService.addToWatchList({ media_type: "movie", media_id: id, watchlist: true });
             setIsInWatchList(true);
+        } catch (error) { console.error(error); }
+    };
 
-        } catch (error) {
-            console.error(Error);
-
-        }
-    }
-    
     const removeToWatchList = async () => {
         try {
-            const payloud = {
-                "media_type": "movie",
-                "media_id": id,
-                "watchlist": false
-            }
-            const response = await MoviesService.addToWatchList(payloud);
+            await MoviesService.addToWatchList({ media_type: "movie", media_id: id, watchlist: false });
             setIsInWatchList(false);
-
-        } catch (error) {
-            console.error(Error);
-
-        }
-    }
+        } catch (error) { console.error(error); }
+    };
 
     const checkFavorite = async () => {
-
-
         try {
             let page = 1;
             while (true) {
                 const response = await MoviesService.getFavoriteMovies(page);
-                // la list des les films
-                let data = response.data.results;
-                let exist = data.find((movie) => movie.id == id);
-                if (exist != undefined) {
-                    setIsInFavorite(true);
-
-                }
-                if (page >= response.data.total_pages) {
-                    break;
-                }
+                const exist = response.data.results.find((m) => m.id == id);
+                if (exist) setIsInFavorite(true);
+                if (page >= response.data.total_pages) break;
                 page++;
             }
+        } catch (error) { console.error(error); }
+    };
 
-        } catch (error) {
-            console.error(error);
-
-        }
-    }
-
-    const checkWatchList= async () => {
-
-
+    const checkWatchList = async () => {
         try {
             let page = 1;
             while (true) {
                 const response = await MoviesService.getWatchListMovies(page);
-                // la list des les films
-                let data = response.data.results;
-                let exist = data.find((movie) => movie.id == id);
-                if (exist != undefined) {
-                    setIsInWatchList(true);
-
-                }
-                if (page >= response.data.total_pages) {
-                    break;
-                }
+                const exist = response.data.results.find((m) => m.id == id);
+                if (exist) setIsInWatchList(true);
+                if (page >= response.data.total_pages) break;
                 page++;
             }
-
-        } catch (error) {
-            console.error(error);
-
-        }
-    }
+        } catch (error) { console.error(error); }
+    };
 
     useEffect(() => {
         fetchMovie();
         checkFavorite();
         checkWatchList();
-    }, [id])
-    return <>
-        <Container fluid className="d-flex flex-column align-items-center gap-3">
-            <Container className="d-flex">
+    }, [id]);
 
-                <Container className="d-flex flex-column align-items-center gap-3">
-                    <img className="col-12" src={"https://image.tmdb.org/t/p/original" + movie.poster_path} alt={"IMAGE-" + movie.title}></img>
-
-                </Container>
-
-                <Container className="d-flex flex-column align-items-center gap-3">
-                    <h1>{movie.title ? movie.title : "Non reseigné"}
-                        <div className="d-flex flex-wrap justify-content-center gap-5 ">
-                            {isInFavorite ? <button className="btn btn-danger" onClick={removeToFavorite}>Retirer des favoris</button> :
-                                <button className="btn btn-success" onClick={addToFavorite}>Ajouter au favoris</button>}
-                            {isInWatchList ? <button className="btn btn-danger" onClick={removeToWatchList}>Retirer à la watchlist</button> :
-                            <button className="btn btn-success" onClick={addToWatchList}>Ajouter à la watchlist</button>}
-
+    return (
+        <Container className="movie-detail py-4">
+            {/* Poster + Info */}
+            <div className="movie-detail__top">
+                {/* Poster */}
+                <div className="movie-detail__poster-wrap">
+                    {movie.poster_path ? (
+                        <img
+                            className="movie-detail__poster"
+                            src={TMDB_IMG + movie.poster_path}
+                            alt={movie.title}
+                        />
+                    ) : (
+                        <div className="movie-detail__no-image">
+                            <span>🎬</span>
+                            <p>Image non disponible</p>
                         </div>
-                    </h1>
-                    <h2 className="tect-decoration-underline">Description</h2>
-                    <p style={{ maxHeight: "30vh", overflow: "auto", textAlign: "justify", paddingRight: "15px" }}>
-                        {movie.overview ? movie.overview : "Non reseigné"}
+                    )}
+                </div>
 
-                    </p>
-                    <h2 className="text-decoration-underline"> Date de sortie</h2>
-                    <p>{movie.release_date ? movie.release_date : "Non reseignè"}</p>
-                    <h2 className="text-decoration-underline">Genrs</h2>
-                    <div className="d-flex gap-3">
-                        {movie.genres ? movie.genres.map((genre) => {
-                            return <span key={genre.id} className="btn btn-info" onClick={() => { navigate("/genre/" + genre.id) }}>{genre.name}</span>
+                {/* Info */}
+                <div className="movie-detail__info">
+                    <h1 className="movie-detail__title">{movie.title || "Titre non renseigné"}</h1>
 
-                        }) : "Non rensegnè"}
-                    </div>
-                    <h2 className="text-decoration-underline">Note</h2>
-                    <p>{movie.vote_average ? movie.vote_average : "non renseignè"}/10</p>
-                    <h2 className="text-decoration-underline">Statut</h2>
-                    <p>{movie.status ? movie.status : "Non renseignè"}</p>
-                    <h2 className="text-decoration-underline">Saga</h2>
-                    <p>{movie.belongs_to_colletion ? movie.belongs_to_colletion.name : "Aucune Sage"}</p>
-                    <h2 className="text-decoration-underline">Productions</h2>
-                    <div className="d-flex gap-3">
-                        {movie.production_companies ? movie.production_companies.map((compagny) => {
-                            return <span className="btn btn-info" key={compagny.id}>{compagny.name}</span>
+                    {movie.vote_average > 0 && (
+                        <div className="movie-detail__rating">
+                            ⭐ {movie.vote_average?.toFixed(1)}<span>/10</span>
+                        </div>
+                    )}
 
-                        }) : "Non renseignè"}
-
-                    </div>
-                    <h2 className="text-decoration-underline">Pay de productions</h2>
-                    <div className="d-flex gap-3">
-                        {movie.countries ? movie.countries.map((country) => {
-                            return <span className="btn btn-info" key={country.iso_3166_1}>{country.name}</span>
-
-
-                        }) : "Non reinsegnè"}
-
-
+                    <div className="movie-detail__actions">
+                        {isInFavorite
+                            ? <button className="btn btn-danger btn-sm" onClick={removeToFavorite}>Retirer des favoris</button>
+                            : <button className="btn btn-success btn-sm" onClick={addToFavorite}>Ajouter aux favoris</button>}
+                        {isInWatchList
+                            ? <button className="btn btn-danger btn-sm" onClick={removeToWatchList}>Retirer de la watchlist</button>
+                            : <button className="btn btn-success btn-sm" onClick={addToWatchList}>Ajouter à la watchlist</button>}
                     </div>
 
+                    {movie.genres?.length > 0 && (
+                        <div className="movie-detail__genres">
+                            {movie.genres.map((g) => (
+                                <span key={g.id} className="movie-detail__genre" onClick={() => navigate("/genre/" + g.id)}>
+                                    {g.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
 
+                    <div className="movie-detail__meta">
+                        {movie.release_date && <span>📅 {movie.release_date}</span>}
+                        {movie.status && <span>📌 {movie.status}</span>}
+                        {movie.belongs_to_collection && <span>🎬 {movie.belongs_to_collection.name}</span>}
+                    </div>
 
+                    {movie.overview && (
+                        <div className="movie-detail__overview">
+                            <h3>Synopsis</h3>
+                            <p>{movie.overview}</p>
+                        </div>
+                    )}
 
-                </Container>
+                    {movie.production_companies?.length > 0 && (
+                        <div className="movie-detail__companies">
+                            <h3>Productions</h3>
+                            <div className="movie-detail__tags">
+                                {movie.production_companies.map((c) => (
+                                    <span key={c.id} className="movie-detail__tag">{c.name}</span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
 
-
-
-            </Container>
-
-            <Tabs id="controlled-tab-example"
-                activeKey={key}
-                onSelect={(k) => setKey(k)}
-                className="mb-3 col-10">
-                <Tab eventKey={"casting"} title="Casting">
-                    <CastingsTab movie={movie}> </CastingsTab>
+            {/* Tabs */}
+            <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3 mt-4">
+                <Tab eventKey="casting" title="Casting">
+                    <CastingsTab movie={movie} />
                 </Tab>
-                <Tab eventKey={"similar-movies"} title="Film similaire">
+                <Tab eventKey="similar-movies" title="Films similaires">
                     <SimilarMoviesTab movie={movie} />
                 </Tab>
-                <Tab eventKey={"saga-movies"} title="Film de la saga">
+                <Tab eventKey="saga-movies" title="Saga">
                     <SagaMoviesTab movie={movie} />
-
                 </Tab>
-
             </Tabs>
-
-
         </Container>
-
-
-    </>;
-}
+    );
+};
 
 export default MoviePage;
